@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("PrepNex")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+889bfa1c6f498ea92b5b0aa06ec4823adb9242a2")]
 [assembly: System.Reflection.AssemblyProductAttribute("PrepNex")]
 [assembly: System.Reflection.AssemblyTitleAttribute("PrepNex")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
