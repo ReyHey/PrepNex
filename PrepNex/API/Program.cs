@@ -13,11 +13,11 @@ namespace PrepNex
 			// Add services to the container.
 			builder.Services.AddControllers();
 
-			// Configure Entity Framework with SQLite
+			// Configure Entity Framework with SQL Server
 			builder.Services.AddDbContext<AppDbContext>(options =>
-				options.UseSqlite(
+				options.UseSqlServer(
 					builder.Configuration.GetConnectionString("DefaultConnection") 
-					?? "Data Source=prepnex.db"));
+					?? "Server=localhost;Database=PrepNex;Trusted_Connection=True;TrustServerCertificate=True;"));
 
 			// Register AI Feedback Service
 			builder.Services.AddScoped<IAIFeedbackService, AIFeedbackService>();
