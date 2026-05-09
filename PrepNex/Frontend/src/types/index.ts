@@ -35,27 +35,32 @@ export interface FilterState {
   topic: string;
 }
 
-export interface SubmitAnswerResponse {
-  message: string;
-  sessionId: string;
-  answerId: number;
-  totalAnswers: number;
-  canRequestFeedback: boolean;
+// --- Session ---
+
+export interface Answer {
+  questionId: number;
+  code?: string;
+  explanation?: string;
+  selectedOptionId?: number;
+}
+
+export interface Session {
+  id: string;
+  position: string;
+  skills: string[];
+  questions: Question[];
+  status: 'active' | 'submitted';
 }
 
 export interface QuestionFeedback {
   questionId: number;
-  questionTitle: string;
-  userAnswer: string;
-  feedback: string;
   score?: number;
-  strengths: string[];
-  improvements: string[];
+  correct?: boolean;
+  feedback: string;
 }
 
-export interface AIFeedbackResponse {
-  sessionId: string;
-  totalAnswers: number;
-  overallFeedback: string;
-  questionFeedbacks: QuestionFeedback[];
+export interface SessionFeedback {
+  overallScore: number;
+  summary: string;
+  questionFeedback: QuestionFeedback[];
 }
