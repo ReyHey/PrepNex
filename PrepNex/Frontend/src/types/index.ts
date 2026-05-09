@@ -1,5 +1,5 @@
 export type Difficulty = 'Easy' | 'Medium' | 'Hard';
-export type QuestionType = 'technical' | 'conceptual';
+export type QuestionCategory = 'multiple-choice' | 'code-only' | 'code-and-explain' | 'explain';
 
 export interface QuestionExample {
   input: string;
@@ -7,23 +7,30 @@ export interface QuestionExample {
   explanation?: string;
 }
 
+export interface MultipleChoiceOption {
+  id: number;
+  text: string;
+}
+
 export interface Question {
   id: number;
   title: string;
   description: string;
   difficulty: Difficulty;
-  category: string;
-  type: QuestionType;
+  category: QuestionCategory;
+  topic?: string;
+  language?: string;
   starterCode?: string;
-  suggestedAnswer?: string;
+  options?: MultipleChoiceOption[];
+  correctOptionId?: number;
+  hints?: string[];
   examples?: QuestionExample[];
   constraints?: string[];
-  hints?: string[];
 }
 
 export interface FilterState {
   search: string;
   difficulty: Difficulty | 'All';
-  type: QuestionType | 'All';
-  category: string;
+  category: QuestionCategory | 'All';
+  topic: string;
 }

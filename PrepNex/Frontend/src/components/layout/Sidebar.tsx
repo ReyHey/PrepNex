@@ -14,16 +14,16 @@ interface SidebarProps {
 const defaultFilter: FilterState = {
   search: '',
   difficulty: 'All',
-  type: 'All',
-  category: '',
+  category: 'All',
+  topic: '',
 };
 
 export function Sidebar({ questions, loading, selectedId, onSelect }: SidebarProps) {
   const [collapsed, setCollapsed] = useState(false);
   const [filter, setFilter] = useState<FilterState>(defaultFilter);
 
-  const categories = useMemo(
-    () => [...new Set(questions.map((q) => q.category))].sort(),
+  const topics = useMemo(
+    () => [...new Set(questions.map((q) => q.topic).filter(Boolean) as string[])].sort(),
     [questions],
   );
 
@@ -31,8 +31,8 @@ export function Sidebar({ questions, loading, selectedId, onSelect }: SidebarPro
     return questions.filter((q) => {
       if (filter.search && !q.title.toLowerCase().includes(filter.search.toLowerCase())) return false;
       if (filter.difficulty !== 'All' && q.difficulty !== filter.difficulty) return false;
-      if (filter.type !== 'All' && q.type !== filter.type) return false;
-      if (filter.category && q.category !== filter.category) return false;
+      if (filter.category !== 'All' && q.category !== filter.category) return false;
+      if (filter.topic && q.topic !== filter.topic) return false;
       return true;
     });
   }, [questions, filter]);
@@ -75,7 +75,7 @@ export function Sidebar({ questions, loading, selectedId, onSelect }: SidebarPro
         </button>
       </div>
 
-      <SearchFilter filter={filter} onChange={setFilter} categories={categories} />
+      <SearchFilter filter={filter} onChange={setFilter} topics={topics} />
 
       <div className="flex-1 overflow-y-auto">
         {loading ? (

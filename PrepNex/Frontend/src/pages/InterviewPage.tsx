@@ -6,8 +6,24 @@ import { Sidebar } from '../components/layout/Sidebar';
 import { Navbar } from '../components/layout/Navbar';
 import { QuestionPanel } from '../components/interview/QuestionPanel';
 import { CodeEditorPanel } from '../components/interview/CodeEditorPanel';
+import { CodeAndExplainPanel } from '../components/interview/CodeAndExplainPanel';
 import { ConceptualPanel } from '../components/interview/ConceptualPanel';
+import { MultipleChoicePanel } from '../components/interview/MultipleChoicePanel';
 import { Spinner } from '../components/ui/Spinner';
+import type { Question } from '../types';
+
+function AnswerPanel({ question }: { question: Question }) {
+  switch (question.category) {
+    case 'code-only':
+      return <CodeEditorPanel question={question} />;
+    case 'code-and-explain':
+      return <CodeAndExplainPanel question={question} />;
+    case 'explain':
+      return <ConceptualPanel question={question} />;
+    case 'multiple-choice':
+      return <MultipleChoicePanel question={question} />;
+  }
+}
 
 export function InterviewPage() {
   const { id } = useParams<{ id: string }>();
@@ -71,12 +87,8 @@ export function InterviewPage() {
               onMouseDown={() => setDragging(true)}
             />
 
-            <div className="flex-1 bg-[#1e1e1e] overflow-hidden">
-              {question.type === 'technical' ? (
-                <CodeEditorPanel key={question.id} question={question} />
-              ) : (
-                <ConceptualPanel key={question.id} question={question} />
-              )}
+            <div className="flex-1 bg-[#1e1e1e] overflow-hidden relative">
+              <AnswerPanel key={question.id} question={question} />
             </div>
           </div>
         )}

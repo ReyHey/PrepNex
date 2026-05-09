@@ -9,11 +9,6 @@ interface QuestionCardProps {
   index: number;
 }
 
-const typeIcon: Record<string, string> = {
-  technical: '⌨',
-  conceptual: '💬',
-};
-
 export function QuestionCard({ question, selected, onClick, index }: QuestionCardProps) {
   return (
     <button
@@ -31,9 +26,11 @@ export function QuestionCard({ question, selected, onClick, index }: QuestionCar
           <div className="flex items-center gap-1.5 mt-1.5 flex-wrap">
             <DifficultyBadge difficulty={question.difficulty} />
             <CategoryTag category={question.category} />
-            <span className="text-xs text-gray-500" title={question.type}>
-              {typeIcon[question.type]}
-            </span>
+            {question.topic && (
+              <span className="text-xs text-gray-500 bg-gray-800 px-1.5 py-0.5 rounded">
+                {question.topic}
+              </span>
+            )}
           </div>
         </div>
       </div>

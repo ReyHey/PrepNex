@@ -17,10 +17,14 @@ export function QuestionPanel({ question }: QuestionPanelProps) {
     <div className="flex flex-col h-full overflow-hidden">
       <div className="px-5 py-4 border-b border-gray-800">
         <h1 className="text-lg font-semibold text-white leading-snug">{question.title}</h1>
-        <div className="flex items-center gap-2 mt-2">
+        <div className="flex items-center gap-2 mt-2 flex-wrap">
           <DifficultyBadge difficulty={question.difficulty} size="md" />
           <CategoryTag category={question.category} />
-          <span className="text-xs text-gray-500 capitalize">{question.type}</span>
+          {question.topic && (
+            <span className="text-xs text-gray-500 bg-gray-800 px-2 py-0.5 rounded">
+              {question.topic}
+            </span>
+          )}
         </div>
       </div>
 
