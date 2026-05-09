@@ -50,10 +50,26 @@ export function HomePage() {
 
       <div className="flex-1 overflow-y-auto">
         <div className="max-w-4xl mx-auto px-6 py-10">
+          {/* Start session CTA */}
+          <div className="mb-8 bg-gradient-to-r from-blue-600/10 to-purple-600/10 border border-blue-500/20 rounded-xl p-6 flex items-center justify-between gap-6">
+            <div>
+              <h2 className="text-lg font-semibold text-white mb-1">Ready for a mock interview?</h2>
+              <p className="text-sm text-gray-400">
+                Pick a position and skills — we'll build a curated session and analyse your answers when you're done.
+              </p>
+            </div>
+            <button
+              onClick={() => navigate('/setup')}
+              className="shrink-0 px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg transition-colors cursor-pointer whitespace-nowrap"
+            >
+              Start Interview →
+            </button>
+          </div>
+
           <div className="mb-8">
-            <h1 className="text-3xl font-bold text-white mb-2">Interview Prep</h1>
+            <h1 className="text-3xl font-bold text-white mb-2">Question Library</h1>
             <p className="text-gray-400">
-              Practice technical and conceptual questions to ace your next developer interview.
+              Browse and practice individual questions. Click any row to open it.
             </p>
           </div>
 
