@@ -13,6 +13,7 @@ namespace PrepNex.Data
 		}
 
 		public DbSet<InterviewQuestion> Questions { get; set; }
+		public DbSet<UserAnswer> UserAnswers { get; set; }
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
@@ -27,6 +28,20 @@ namespace PrepNex.Data
 				entity.Property(e => e.Difficulty).IsRequired().HasMaxLength(50);
 				entity.Property(e => e.Category).IsRequired().HasMaxLength(100);
 				entity.Property(e => e.Type).IsRequired().HasMaxLength(50);
+			});
+
+			// Configure the UserAnswer entity
+			modelBuilder.Entity<UserAnswer>(entity =>
+			{
+				entity.HasKey(e => e.Id);
+				entity.Property(e => e.Answer).IsRequired();
+				entity.Property(e => e.SubmittedAt).IsRequired();
+				entity.Property(e => e.SessionId).HasMaxLength(100);
+
+				entity.HasOne(e => e.Question)
+					.WithMany()
+					.HasForeignKey(e => e.QuestionId)
+					.OnDelete(DeleteBehavior.Cascade);
 			});
 		}
 	}

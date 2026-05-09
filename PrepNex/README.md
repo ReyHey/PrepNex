@@ -13,6 +13,7 @@ PrepNex is a modern, LeetCode-inspired interview preparation platform that helps
 - **Modern UI**: Dark theme, responsive design, LeetCode-inspired
 - **Real-time Code Editor**: Monaco Editor with syntax highlighting
 - **RESTful API**: ASP.NET Core backend with SQLite
+- **✨ AI-Powered Feedback**: Get personalized feedback on your answers after completing 5 questions (powered by Azure OpenAI)
 
 ## 🛠️ Tech Stack
 
@@ -82,6 +83,26 @@ npm run dev
 ```
 
 The frontend will start on: `http://localhost:5173`
+
+### 4. (Optional) Configure AI Feedback
+
+To enable AI-powered feedback on answers:
+
+```bash
+cd API
+
+# Option 1: Use User Secrets (recommended)
+dotnet user-secrets set "OpenAI:ApiKey" "your-azure-openai-key"
+dotnet user-secrets set "OpenAI:Endpoint" "https://your-resource.openai.azure.com/"
+dotnet user-secrets set "OpenAI:DeploymentName" "gpt-4o"
+
+# Option 2: Edit appsettings.json (not recommended for production)
+# Add your Azure OpenAI credentials to the OpenAI section
+```
+
+**Without OpenAI configuration**, the system automatically uses **mock feedback** (still useful for testing).
+
+📖 See [AI_FEEDBACK_SETUP.md](AI_FEEDBACK_SETUP.md) for detailed setup instructions.
 
 ## 🗄️ Database
 

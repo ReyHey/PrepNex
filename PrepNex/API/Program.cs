@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using PrepNex.Data;
+using PrepNex.Services;
 
 namespace PrepNex
 {
@@ -17,6 +18,9 @@ namespace PrepNex
 				options.UseSqlite(
 					builder.Configuration.GetConnectionString("DefaultConnection") 
 					?? "Data Source=prepnex.db"));
+
+			// Register AI Feedback Service
+			builder.Services.AddScoped<IAIFeedbackService, AIFeedbackService>();
 
 			// Configure CORS for frontend
 			builder.Services.AddCors(options =>
