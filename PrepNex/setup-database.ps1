@@ -7,7 +7,7 @@ Write-Host ""
 # Check if SQL Server is accessible
 Write-Host "Checking SQL Server connection..." -ForegroundColor Yellow
 try {
-	$testConnection = sqlcmd -S localhost -Q "SELECT @@VERSION" -b 2>&1
+	$testConnection = sqlcmd -S localhost -Q "SELECT 1" -b 2>&1
 	if ($LASTEXITCODE -ne 0) {
 		Write-Host "ERROR: Cannot connect to SQL Server at localhost" -ForegroundColor Red
 		Write-Host "Please ensure SQL Server is installed and running." -ForegroundColor Red
