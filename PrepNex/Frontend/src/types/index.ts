@@ -34,3 +34,33 @@ export interface FilterState {
   category: QuestionCategory | 'All';
   topic: string;
 }
+
+// --- Session ---
+
+export interface Answer {
+  questionId: number;
+  code?: string;
+  explanation?: string;
+  selectedOptionId?: number;
+}
+
+export interface Session {
+  id: string;
+  position: string;
+  skills: string[];
+  questions: Question[];
+  status: 'active' | 'submitted';
+}
+
+export interface QuestionFeedback {
+  questionId: number;
+  score?: number;
+  correct?: boolean;
+  feedback: string;
+}
+
+export interface SessionFeedback {
+  overallScore: number;
+  summary: string;
+  questionFeedback: QuestionFeedback[];
+}

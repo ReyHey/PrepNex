@@ -3,7 +3,9 @@ import Editor from '@monaco-editor/react';
 import type { Question } from '../../types';
 import { Button } from '../ui/Button';
 import { AiFeedbackDrawer } from './AiFeedbackDrawer';
+import { CodeOutputPanel, type RunStatus } from './CodeOutputPanel';
 import { questionsService } from '../../api/questionsService';
+import { codeService } from '../../api/codeService';
 
 interface CodeAndExplainPanelProps {
   question: Question;
@@ -12,12 +14,23 @@ interface CodeAndExplainPanelProps {
 export function CodeAndExplainPanel({ question }: CodeAndExplainPanelProps) {
   const [code, setCode] = useState(question.starterCode ?? '');
   const [explanation, setExplanation] = useState('');
+  const [runStatus, setRunStatus] = useState<RunStatus>('idle');
+  const [runOutput, setRunOutput] = useState('');
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [reviewing, setReviewing] = useState(false);
   const [score, setScore] = useState<number | undefined>();
   const [feedback, setFeedback] = useState<string | undefined>();
 
   const canSubmit = code.trim().length > 0 || explanation.trim().length > 0;
+
+  const handleRun = async () => {
+    setRunStatus('running');
+    setRunOutput('');
+    const result = await codeService.run(code, question.language ?? 'plaintext');
+    const offline = result.output.startsWith('Cannot reach');
+    setRunStatus(result.success ? 'success' : offline ? 'unreachable' : 'error');
+    setRunOutput(result.output);
+  };
 
   const handleSubmit = async () => {
     setDrawerOpen(true);
@@ -36,6 +49,8 @@ export function CodeAndExplainPanel({ question }: CodeAndExplainPanelProps) {
   const handleReset = () => {
     setCode(question.starterCode ?? '');
     setExplanation('');
+    setRunStatus('idle');
+    setRunOutput('');
     setDrawerOpen(false);
     setScore(undefined);
     setFeedback(undefined);
@@ -55,6 +70,15 @@ export function CodeAndExplainPanel({ question }: CodeAndExplainPanelProps) {
         <div className="flex items-center gap-2">
           <Button variant="ghost" size="sm" onClick={handleReset}>
             Reset
+          </Button>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={handleRun}
+            loading={runStatus === 'running'}
+            disabled={runStatus === 'running' || code.trim().length === 0}
+          >
+            ▶ Run
           </Button>
           <Button variant="primary" size="sm" onClick={handleSubmit} disabled={!canSubmit}>
             Submit for Review
@@ -95,6 +119,8 @@ export function CodeAndExplainPanel({ question }: CodeAndExplainPanelProps) {
           />
         </div>
       </div>
+
+      <CodeOutputPanel status={runStatus} output={runOutput} />
 
       <AiFeedbackDrawer
         open={drawerOpen}
