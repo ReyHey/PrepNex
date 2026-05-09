@@ -34,3 +34,28 @@ export interface FilterState {
   category: QuestionCategory | 'All';
   topic: string;
 }
+
+export interface SubmitAnswerResponse {
+  message: string;
+  sessionId: string;
+  answerId: number;
+  totalAnswers: number;
+  canRequestFeedback: boolean;
+}
+
+export interface QuestionFeedback {
+  questionId: number;
+  questionTitle: string;
+  userAnswer: string;
+  feedback: string;
+  score?: number;
+  strengths: string[];
+  improvements: string[];
+}
+
+export interface AIFeedbackResponse {
+  sessionId: string;
+  totalAnswers: number;
+  overallFeedback: string;
+  questionFeedbacks: QuestionFeedback[];
+}
