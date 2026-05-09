@@ -2,9 +2,10 @@ import { Link } from 'react-router-dom';
 
 interface NavbarProps {
   questionTitle?: string;
+  children?: React.ReactNode;
 }
 
-export function Navbar({ questionTitle }: NavbarProps) {
+export function Navbar({ questionTitle, children }: NavbarProps) {
   return (
     <header className="h-12 shrink-0 bg-gray-900 border-b border-gray-800 flex items-center px-4 gap-4 z-10">
       <Link
@@ -23,6 +24,7 @@ export function Navbar({ questionTitle }: NavbarProps) {
       )}
 
       <div className="ml-auto flex items-center gap-3">
+        {children}
         <span className="text-xs text-gray-500 bg-gray-800 px-2 py-1 rounded">MVP</span>
       </div>
     </header>
