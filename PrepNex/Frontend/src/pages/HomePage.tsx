@@ -11,19 +11,17 @@ import { Navbar } from '../components/layout/Navbar';
 const defaultFilter: FilterState = {
   search: '',
   difficulty: 'All',
-  type: 'All',
-  category: '',
+  category: 'All',
+  topic: '',
 };
-
-const typeIcon: Record<string, string> = { technical: '⌨', conceptual: '💬' };
 
 export function HomePage() {
   const { questions, loading, error } = useQuestions();
   const [filter, setFilter] = useState<FilterState>(defaultFilter);
   const navigate = useNavigate();
 
-  const categories = useMemo(
-    () => [...new Set(questions.map((q) => q.category))].sort(),
+  const topics = useMemo(
+    () => [...new Set(questions.map((q) => q.topic).filter(Boolean) as string[])].sort(),
     [questions],
   );
 
@@ -31,8 +29,8 @@ export function HomePage() {
     return questions.filter((q) => {
       if (filter.search && !q.title.toLowerCase().includes(filter.search.toLowerCase())) return false;
       if (filter.difficulty !== 'All' && q.difficulty !== filter.difficulty) return false;
-      if (filter.type !== 'All' && q.type !== filter.type) return false;
-      if (filter.category && q.category !== filter.category) return false;
+      if (filter.category !== 'All' && q.category !== filter.category) return false;
+      if (filter.topic && q.topic !== filter.topic) return false;
       return true;
     });
   }, [questions, filter]);
@@ -76,7 +74,7 @@ export function HomePage() {
 
           <div className="bg-gray-900 rounded-xl border border-gray-800 overflow-hidden">
             <div className="p-4 border-b border-gray-800">
-              <SearchFilter filter={filter} onChange={setFilter} categories={categories} />
+              <SearchFilter filter={filter} onChange={setFilter} topics={topics} />
             </div>
 
             {loading && (
@@ -98,8 +96,8 @@ export function HomePage() {
                     <th className="text-left text-xs text-gray-500 font-medium px-4 py-2.5 w-12">#</th>
                     <th className="text-left text-xs text-gray-500 font-medium px-4 py-2.5">Title</th>
                     <th className="text-left text-xs text-gray-500 font-medium px-4 py-2.5">Difficulty</th>
-                    <th className="text-left text-xs text-gray-500 font-medium px-4 py-2.5">Category</th>
-                    <th className="text-left text-xs text-gray-500 font-medium px-4 py-2.5">Type</th>
+                    <th className="text-left text-xs text-gray-500 font-medium px-4 py-2.5">Format</th>
+                    <th className="text-left text-xs text-gray-500 font-medium px-4 py-2.5">Topic</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -125,7 +123,7 @@ export function HomePage() {
                           <CategoryTag category={q.category} />
                         </td>
                         <td className="px-4 py-3 text-sm text-gray-500">
-                          <span title={q.type}>{typeIcon[q.type]}</span>
+                          {q.topic ?? '—'}
                         </td>
                       </tr>
                     ))

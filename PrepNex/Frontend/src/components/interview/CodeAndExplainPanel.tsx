@@ -5,16 +5,19 @@ import { Button } from '../ui/Button';
 import { AiFeedbackDrawer } from './AiFeedbackDrawer';
 import { questionsService } from '../../api/questionsService';
 
-interface CodeEditorPanelProps {
+interface CodeAndExplainPanelProps {
   question: Question;
 }
 
-export function CodeEditorPanel({ question }: CodeEditorPanelProps) {
+export function CodeAndExplainPanel({ question }: CodeAndExplainPanelProps) {
   const [code, setCode] = useState(question.starterCode ?? '');
+  const [explanation, setExplanation] = useState('');
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [reviewing, setReviewing] = useState(false);
   const [score, setScore] = useState<number | undefined>();
   const [feedback, setFeedback] = useState<string | undefined>();
+
+  const canSubmit = code.trim().length > 0 || explanation.trim().length > 0;
 
   const handleSubmit = async () => {
     setDrawerOpen(true);
@@ -22,7 +25,7 @@ export function CodeEditorPanel({ question }: CodeEditorPanelProps) {
     setScore(undefined);
     setFeedback(undefined);
     try {
-      const result = await questionsService.reviewAnswer(question.id, { code });
+      const result = await questionsService.reviewAnswer(question.id, { code, explanation });
       setScore(result.score);
       setFeedback(result.feedback);
     } finally {
@@ -32,6 +35,7 @@ export function CodeEditorPanel({ question }: CodeEditorPanelProps) {
 
   const handleReset = () => {
     setCode(question.starterCode ?? '');
+    setExplanation('');
     setDrawerOpen(false);
     setScore(undefined);
     setFeedback(undefined);
@@ -46,39 +50,50 @@ export function CodeEditorPanel({ question }: CodeEditorPanelProps) {
               {question.language}
             </span>
           )}
+          <span className="text-xs text-gray-600">+ explanation</span>
         </div>
         <div className="flex items-center gap-2">
           <Button variant="ghost" size="sm" onClick={handleReset}>
             Reset
           </Button>
-          <Button
-            variant="primary"
-            size="sm"
-            onClick={handleSubmit}
-            disabled={code.trim().length === 0}
-          >
+          <Button variant="primary" size="sm" onClick={handleSubmit} disabled={!canSubmit}>
             Submit for Review
           </Button>
         </div>
       </div>
 
-      <div className="flex-1 overflow-hidden">
-        <Editor
-          height="100%"
-          language={question.language ?? 'plaintext'}
-          theme="vs-dark"
-          value={code}
-          onChange={(value) => setCode(value ?? '')}
-          options={{
-            minimap: { enabled: false },
-            fontSize: 14,
-            lineNumbers: 'on',
-            scrollBeyondLastLine: false,
-            wordWrap: 'on',
-            tabSize: 4,
-            automaticLayout: true,
-          }}
-        />
+      <div className="flex flex-col flex-1 overflow-hidden">
+        <div className="flex-1 min-h-0 overflow-hidden border-b border-gray-800">
+          <Editor
+            height="100%"
+            language={question.language ?? 'plaintext'}
+            theme="vs-dark"
+            value={code}
+            onChange={(value) => setCode(value ?? '')}
+            options={{
+              minimap: { enabled: false },
+              fontSize: 14,
+              lineNumbers: 'on',
+              scrollBeyondLastLine: false,
+              wordWrap: 'on',
+              tabSize: 4,
+              automaticLayout: true,
+            }}
+          />
+        </div>
+
+        <div className="h-40 flex flex-col shrink-0">
+          <div className="px-4 py-2 border-b border-gray-800">
+            <span className="text-xs text-gray-500">Your explanation</span>
+          </div>
+          <textarea
+            value={explanation}
+            onChange={(e) => setExplanation(e.target.value)}
+            placeholder="Explain your approach, trade-offs, and any assumptions you made..."
+            className="flex-1 resize-none bg-[#1e1e1e] text-gray-200 text-sm font-mono px-4 py-3
+              focus:outline-none placeholder-gray-600 leading-relaxed"
+          />
+        </div>
       </div>
 
       <AiFeedbackDrawer

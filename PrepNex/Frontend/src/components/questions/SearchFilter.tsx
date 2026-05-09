@@ -1,15 +1,22 @@
-import type { Difficulty, FilterState, QuestionType } from '../../types';
+import type { Difficulty, FilterState, QuestionCategory } from '../../types';
 
 interface SearchFilterProps {
   filter: FilterState;
   onChange: (filter: FilterState) => void;
-  categories: string[];
+  topics: string[];
 }
 
 const difficulties: Array<Difficulty | 'All'> = ['All', 'Easy', 'Medium', 'Hard'];
-const types: Array<QuestionType | 'All'> = ['All', 'technical', 'conceptual'];
 
-export function SearchFilter({ filter, onChange, categories }: SearchFilterProps) {
+const categories: Array<{ value: QuestionCategory | 'All'; label: string }> = [
+  { value: 'All', label: 'All' },
+  { value: 'multiple-choice', label: 'Multiple Choice' },
+  { value: 'code-only', label: 'Code' },
+  { value: 'code-and-explain', label: 'Code & Explain' },
+  { value: 'explain', label: 'Explain' },
+];
+
+export function SearchFilter({ filter, onChange, topics }: SearchFilterProps) {
   const set = <K extends keyof FilterState>(key: K, value: FilterState[K]) =>
     onChange({ ...filter, [key]: value });
 
@@ -40,32 +47,32 @@ export function SearchFilter({ filter, onChange, categories }: SearchFilterProps
         ))}
       </div>
       <div className="flex gap-1.5 flex-wrap">
-        {types.map((t) => (
+        {categories.map(({ value, label }) => (
           <button
-            key={t}
-            onClick={() => set('type', t)}
+            key={value}
+            onClick={() => set('category', value)}
             className={`text-xs px-2.5 py-1 rounded-full border transition-colors cursor-pointer
               ${
-                filter.type === t
+                filter.category === value
                   ? 'bg-purple-600 border-purple-600 text-white'
                   : 'bg-transparent border-gray-700 text-gray-400 hover:border-gray-500'
               }`}
           >
-            {t === 'All' ? 'All Types' : t}
+            {label}
           </button>
         ))}
       </div>
-      {categories.length > 0 && (
+      {topics.length > 0 && (
         <select
-          value={filter.category}
-          onChange={(e) => set('category', e.target.value)}
+          value={filter.topic}
+          onChange={(e) => set('topic', e.target.value)}
           className="w-full bg-gray-800 border border-gray-700 rounded px-3 py-1.5 text-sm text-gray-300
             focus:outline-none focus:border-blue-500 transition-colors"
         >
-          <option value="">All Categories</option>
-          {categories.map((c) => (
-            <option key={c} value={c}>
-              {c}
+          <option value="">All Topics</option>
+          {topics.map((t) => (
+            <option key={t} value={t}>
+              {t}
             </option>
           ))}
         </select>

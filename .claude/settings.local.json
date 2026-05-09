@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx tsc *)",
+      "PowerShell(Get-Command node -ErrorAction SilentlyContinue)",
+      "PowerShell(Get-Command npm -ErrorAction SilentlyContinue)",
+      "PowerShell(cd \"c:\\\\Users\\\\omid1\\\\source\\\\repos\\\\PrepNexNew\\\\PrepNex\\\\PrepNex\\\\Frontend\"; $env:VITE_USE_MOCK_DATA=\"true\"; npm run dev 2>&1 | Select-Object -First 20)",
+      "PowerShell(Get-ChildItem \"C:\\\\Program Files\\\\nodejs\\\\npm.cmd\" -ErrorAction SilentlyContinue; Get-ChildItem \"C:\\\\Program Files \\(x86\\)\\\\nodejs\\\\npm.cmd\" -ErrorAction SilentlyContinue; Get-ChildItem \"$env:APPDATA\\\\npm\\\\npm.cmd\" -ErrorAction SilentlyContinue; Get-ChildItem \"$env:LOCALAPPDATA\\\\Programs\\\\nodejs\\\\npm.cmd\" -ErrorAction SilentlyContinue; where.exe node 2>$null; where.exe npm 2>$null)"
+    ]
+  }
+}
