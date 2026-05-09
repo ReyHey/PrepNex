@@ -27,7 +27,7 @@ namespace PrepNex.Data
 				entity.Property(e => e.Description).IsRequired();
 				entity.Property(e => e.Difficulty).IsRequired().HasMaxLength(50);
 				entity.Property(e => e.Category).IsRequired().HasMaxLength(100);
-				entity.Property(e => e.Type).IsRequired().HasMaxLength(50);
+				entity.Property(e => e.Type).HasMaxLength(50);
 			});
 
 			// Configure the UserAnswer entity

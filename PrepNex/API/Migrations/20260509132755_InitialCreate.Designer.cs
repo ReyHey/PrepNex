@@ -11,8 +11,8 @@ using PrepNex.Data;
 namespace PrepNex.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260509123124_AddUserAnswers")]
-    partial class AddUserAnswers
+    [Migration("20260509132755_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -31,6 +31,12 @@ namespace PrepNex.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("ConstraintsJson")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("CorrectOptionId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -38,6 +44,18 @@ namespace PrepNex.Migrations
                     b.Property<string>("Difficulty")
                         .IsRequired()
                         .HasMaxLength(50)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ExamplesJson")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("HintsJson")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Language")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("OptionsJson")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("StarterCode")
@@ -51,8 +69,10 @@ namespace PrepNex.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("Topic")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("Type")
-                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("TEXT");
 

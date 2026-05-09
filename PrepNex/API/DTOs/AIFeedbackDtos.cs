@@ -42,4 +42,38 @@ namespace PrepNex.DTOs
 		public List<string> Strengths { get; set; } = new();
 		public List<string> Improvements { get; set; } = new();
 	}
+
+	/// <summary>
+	/// Request to review code/explanation for a question.
+	/// </summary>
+	public class ReviewRequest
+	{
+		public string? Code { get; set; }
+		public string? Explanation { get; set; }
+	}
+
+	/// <summary>
+	/// Response from AI review.
+	/// </summary>
+	public class ReviewResponse
+	{
+		public int Score { get; set; }
+		public required string Feedback { get; set; }
+	}
+
+	/// <summary>
+	/// Request to submit multiple choice answer.
+	/// </summary>
+	public class SubmitMultipleChoiceRequest
+	{
+		public int SelectedOptionId { get; set; }
+	}
+
+	/// <summary>
+	/// Response for multiple choice submission.
+	/// </summary>
+	public class SubmitMultipleChoiceResponse
+	{
+		public bool Correct { get; set; }
+	}
 }
