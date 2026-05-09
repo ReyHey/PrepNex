@@ -81,3 +81,4 @@ tmp/
 temp/
 PrepNex/.claude*
 PrepNex/API/Database/secrets.json
+/.claude
