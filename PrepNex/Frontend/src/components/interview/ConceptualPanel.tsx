@@ -1,11 +1,14 @@
 import { useState } from 'react';
 import type { Question } from '../../types';
 import { Button } from '../ui/Button';
+
 import { AiFeedbackDrawer } from './AiFeedbackDrawer';
 import { questionsService } from '../../api/questionsService';
-
+        
 interface ConceptualPanelProps {
   question: Question;
+  onAnswerSubmitted?: (sessionId: string, totalAnswers: number, canRequestFeedback: boolean) => void;
+  sessionId?: string;
 }
 
 export function ConceptualPanel({ question }: ConceptualPanelProps) {
